@@ -28,6 +28,10 @@ const APP_STATE = {
     responses: []
 };
 
+// ===== Choices.js Instances =====
+let departmentChoices = null;
+let serviceChoices = null;
+
 // ===== Local Storage Management =====
 function saveToLocalStorage() {
     localStorage.setItem('niems_satisfaction_data', JSON.stringify(APP_STATE));
@@ -98,6 +102,16 @@ function populateDropdowns() {
     const departmentSelect = document.getElementById('department');
     const serviceSelect = document.getElementById('serviceType');
 
+    // Destroy existing Choices instances if they exist
+    if (departmentChoices) {
+        departmentChoices.destroy();
+        departmentChoices = null;
+    }
+    if (serviceChoices) {
+        serviceChoices.destroy();
+        serviceChoices = null;
+    }
+
     // Clear existing options (except the first placeholder)
     departmentSelect.innerHTML = '<option value="">-- เลือกสังกัด --</option>';
     serviceSelect.innerHTML = '<option value="">-- เลือกประเภทบริการ --</option>';
@@ -116,6 +130,34 @@ function populateDropdowns() {
         option.value = service;
         option.textContent = service;
         serviceSelect.appendChild(option);
+    });
+
+    // Initialize Choices.js for searchable dropdowns
+    const choicesConfig = {
+        searchEnabled: true,
+        searchPlaceholderValue: 'พิมพ์เพื่อค้นหา...',
+        noResultsText: 'ไม่พบผลลัพธ์',
+        noChoicesText: 'ไม่มีตัวเลือก',
+        itemSelectText: '',
+        placeholderValue: null,
+        searchResultLimit: 10,
+        shouldSort: false,
+        position: 'bottom',
+        resetScrollPosition: true,
+        searchFloor: 1,
+        fuseOptions: {
+            threshold: 0.3,
+        },
+    };
+
+    departmentChoices = new Choices(departmentSelect, {
+        ...choicesConfig,
+        placeholderValue: '-- เลือกสังกัด --',
+    });
+
+    serviceChoices = new Choices(serviceSelect, {
+        ...choicesConfig,
+        placeholderValue: '-- เลือกประเภทบริการ --',
     });
 }
 
@@ -138,8 +180,10 @@ document.getElementById('evaluation-form').addEventListener('submit', function (
     // Show success modal
     showSuccessModal();
 
-    // Reset form
+    // Reset form and Choices.js
     this.reset();
+    if (departmentChoices) departmentChoices.setChoiceByValue('');
+    if (serviceChoices) serviceChoices.setChoiceByValue('');
 });
 
 // ===== Success Modal =====
