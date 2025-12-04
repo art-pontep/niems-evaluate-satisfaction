@@ -1,0 +1,115 @@
+# Configuration Workflow
+# This workflow validates and updates configuration based on GitHub Secrets
+
+name: Configuration Validation
+
+on:
+  # Runs when secrets are updated (via workflow_dispatch)
+  workflow_dispatch:
+    inputs:
+      validate_only:
+        description: 'Only validate secrets without deploying'
+        required: false
+        default: false
+        type: boolean
+
+  # Also runs on push to check configuration
+  push:
+    branches: ["main"]
+    paths:
+      - 'app.js'
+      - '.github/workflows/config.yml'
+
+jobs:
+  validate-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Admin Password Secret
+        run: |
+          echo "🔐 Checking Admin Password Configuration..."
+          
+          if [ -n "${{ secrets.ADMIN_PASSWORD }}" ]; then
+            # Check password length (minimum 6 characters recommended)
+            PASSWORD_LENGTH=${#ADMIN_PASSWORD}
+            if [ "$PASSWORD_LENGTH" -lt 6 ]; then
+              echo "⚠️ Warning: Admin password is less than 6 characters"
+            else
+              echo "✅ Admin password secret is configured"
+            fi
+          else
+            echo "⚠️ Warning: ADMIN_PASSWORD secret is not set"
+            echo "📝 Using default password from app.js"
+            echo ""
+            echo "To set a custom password:"
+            echo "1. Go to Repository Settings"
+            echo "2. Navigate to Secrets and variables > Actions"
+            echo "3. Click 'New repository secret'"
+            echo "4. Name: ADMIN_PASSWORD"
+            echo "5. Value: Your secure password"
+          fi
+        env:
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+
+      - name: Check Required Files
+        run: |
+          echo "📁 Checking required files..."
+          
+          required_files=("index.html" "styles.css" "app.js")
+          missing_files=()
+          
+          for file in "${required_files[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✅ $file exists"
+            else
+              echo "❌ $file is missing"
+              missing_files+=("$file")
+            fi
+          done
+          
+          if [ ${#missing_files[@]} -gt 0 ]; then
+            echo "::error::Missing required files: ${missing_files[*]}"
+            exit 1
+          fi
+          
+          echo ""
+          echo "✅ All required files are present"
+
+      - name: Validate JavaScript Syntax
+        run: |
+          echo "🔍 Validating JavaScript syntax..."
+          node --check app.js && echo "✅ app.js syntax is valid" || echo "❌ app.js has syntax errors"
+
+      - name: Configuration Summary
+        run: |
+          echo ""
+          echo "=================================="
+          echo "📋 Configuration Summary"
+          echo "=================================="
+          echo ""
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo ""
+          
+          if [ -n "${{ secrets.ADMIN_PASSWORD }}" ]; then
+            echo "🔐 Admin Password: ✅ Custom (from secret)"
+          else
+            echo "🔐 Admin Password: ⚠️ Default (admin123)"
+          fi
+          
+          echo ""
+          echo "=================================="
+
+  # Optional: Trigger deployment if validation passes
+  trigger-deploy:
+    needs: validate-config
+    if: ${{ github.event.inputs.validate_only != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Deployment
+        run: |
+          echo "✅ Configuration validated successfully"
+          echo "🚀 Deployment will be triggered by the deploy.yml workflow"

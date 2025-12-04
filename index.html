@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบประเมินความพึงพอใจ - สำนักดิจิทัลการแพทย์ฉุกเฉิน</title>
+    <meta name="description"
+        content="ระบบประเมินความพึงพอใจการให้บริการของสำนักดิจิทัลการแพทย์ฉุกเฉิน สถาบันการแพทย์ฉุกเฉินแห่งชาติ (NIEMS)">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Landing Page -->
+    <div id="landing-page" class="page active">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="logo-section">
+                    <div class="logo-container">
+                        <img src="logo-200.png" alt="NIEMS Logo" class="niems-logo">
+                    </div>
+                    <h1 class="hero-title">ระบบประเมินความพึงพอใจ</h1>
+                    <p class="hero-subtitle">สำนักดิจิทัลการแพทย์ฉุกเฉิน</p>
+                    <p class="hero-description">สถาบันการแพทย์ฉุกเฉินแห่งชาติ</p>
+                </div>
+
+                <div class="role-selection">
+                    <button class="role-card" onclick="showUserForm()">
+                        <div class="role-icon user-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3>ผู้รับบริการ</h3>
+                        <p>ประเมินความพึงพอใจการให้บริการ</p>
+                    </button>
+
+                    <button class="role-card" onclick="showAdminLogin()">
+                        <div class="role-icon admin-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3>ผู้ดูแลระบบ</h3>
+                        <p>จัดการและดูสถิติข้อมูล</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Evaluation Form -->
+    <div id="user-form-page" class="page">
+        <div class="container">
+            <button class="back-button" onclick="showLanding()">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                กลับ
+            </button>
+
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>แบบประเมินความพึงพอใจ</h2>
+                    <p>กรุณากรอกข้อมูลและประเมินการให้บริการของเรา</p>
+                </div>
+
+                <form id="evaluation-form">
+                    <div class="form-section">
+                        <h3 class="section-title">ข้อมูลผู้รับบริการ</h3>
+                        <div class="form-group">
+                            <label for="department">สังกัด <span class="required">*</span></label>
+                            <select id="department" name="department" required>
+                                <option value="">-- เลือกสังกัด --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">ประเภทบริการที่ได้รับ</h3>
+                        <div class="form-group">
+                            <label for="serviceType">เลือกบริการ <span class="required">*</span></label>
+                            <select id="serviceType" name="serviceType" required>
+                                <option value="">-- เลือกประเภทบริการ --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">ระดับความพึงพอใจ</h3>
+                        <div class="satisfaction-options">
+                            <label class="satisfaction-card" data-level="low">
+                                <input type="radio" name="satisfaction" value="ควรปรับปรุง" required>
+                                <div class="satisfaction-icon">😟</div>
+                                <div class="satisfaction-label">ควรปรับปรุง</div>
+                            </label>
+
+                            <label class="satisfaction-card" data-level="medium">
+                                <input type="radio" name="satisfaction" value="พอใช้" required>
+                                <div class="satisfaction-icon">😊</div>
+                                <div class="satisfaction-label">พอใช้</div>
+                            </label>
+
+                            <label class="satisfaction-card" data-level="high">
+                                <input type="radio" name="satisfaction" value="ดีมาก" required>
+                                <div class="satisfaction-icon">🤩</div>
+                                <div class="satisfaction-label">ดีมาก</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="comments">ข้อเสนอแนะเพิ่มเติม (ถ้ามี)</label>
+                            <textarea id="comments" name="comments" rows="4"
+                                placeholder="กรุณาแสดงความคิดเห็นหรือข้อเสนอแนะ..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M22 11.08V12C21.9988 14.1564 21.3005 16.2547 20.0093 17.9818C18.7182 19.7088 16.9033 20.9725 14.8354 21.5839C12.7674 22.1953 10.5573 22.1219 8.53447 21.3746C6.51168 20.6273 4.78465 19.2461 3.61096 17.4371C2.43727 15.628 1.87979 13.4881 2.02168 11.3363C2.16356 9.18455 2.99721 7.13631 4.39828 5.49706C5.79935 3.85781 7.69279 2.71537 9.79619 2.24013C11.8996 1.7649 14.1003 1.98232 16.07 2.85999"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M22 4L12 14.01L9 11.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            ส่งแบบประเมิน
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login -->
+    <div id="admin-login-page" class="page">
+        <div class="container">
+            <button class="back-button" onclick="showLanding()">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                กลับ
+            </button>
+
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="login-header">
+                        <div class="login-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                    d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h2>เข้าสู่ระบบผู้ดูแล</h2>
+                        <p>กรุณาใส่รหัสผ่านเพื่อเข้าสู่ระบบ</p>
+                    </div>
+
+                    <form id="admin-login-form">
+                        <div class="form-group">
+                            <label for="adminPassword">รหัสผ่าน</label>
+                            <input type="password" id="adminPassword" name="adminPassword" required
+                                placeholder="••••••••">
+                        </div>
+
+                        <div class="form-group remember-me">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="rememberMe" name="rememberMe">
+                                <span class="checkmark"></span>
+                                จำฉันไว้และอยู่ในระบบต่อไป
+                            </label>
+                        </div>
+
+                        <div id="login-error" class="error-message" style="display: none;">
+                            รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M10 17L15 12L10 7" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            เข้าสู่ระบบ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard-page" class="page">
+        <div class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <div>
+                        <h1>แดชบอร์ดผู้ดูแลระบบ</h1>
+                        <p>จัดการและติดตามสถิติการประเมินความพึงพอใจ</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="logout()">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            ออกจากระบบ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="tab-navigation">
+                    <button class="tab-button active" onclick="showTab('dashboard')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        แดชบอร์ด
+                    </button>
+                    <button class="tab-button" onclick="showTab('settings')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        การตั้งค่า
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container dashboard-content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard-tab" class="tab-content active">
+                <!-- Statistics Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #0056b3 0%, #007bff 100%);">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">จำนวนผู้ประเมินทั้งหมด</div>
+                            <div class="stat-value" id="total-responses">0</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M9 9H9.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M15 9H15.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">บริการยอดนิยม</div>
+                            <div class="stat-value popular-service-text" id="popular-service">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section - Balanced Layout -->
+                <div class="charts-balanced-grid">
+                    <div class="chart-card">
+                        <h3>การกระจายความพึงพอใจ</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="satisfaction-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>สถิติตามประเภทบริการ</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="service-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="data-section">
+                    <div class="data-header">
+                        <h2>ข้อมูลการประเมินทั้งหมด</h2>
+                        <button class="btn btn-primary" onclick="exportData()">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            ส่งออก CSV
+                        </button>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="data-table">
+                            <thead>
+                                <tr>
+                                    <th>วันที่</th>
+                                    <th>สังกัด</th>
+                                    <th>ประเภทบริการ</th>
+                                    <th>ความพึงพอใจ</th>
+                                    <th>ข้อเสนอแนะ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data-table-body">
+                                <tr>
+                                    <td colspan="5" class="no-data">ยังไม่มีข้อมูลการประเมิน</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-content">
+                <div class="settings-header">
+                    <h2>การตั้งค่าระบบ</h2>
+                    <p>จัดการรายการสังกัดและประเภทบริการ</p>
+                </div>
+
+                <div class="config-grid">
+                    <div class="config-card">
+                        <h3>จัดการสังกัด</h3>
+                        <div class="config-add" style="margin-bottom: var(--spacing-md);">
+                            <input type="text" id="new-department" placeholder="เพิ่มสังกัดใหม่...">
+                            <button onclick="addDepartment()" class="btn btn-sm btn-primary">เพิ่ม</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="config-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 60px;">#</th>
+                                        <th>ชื่อสังกัด</th>
+                                        <th style="width: 100px;">จัดการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="department-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="config-card">
+                        <h3>จัดการประเภทบริการ</h3>
+                        <div class="config-add" style="margin-bottom: var(--spacing-md);">
+                            <input type="text" id="new-service" placeholder="เพิ่มบริการใหม่...">
+                            <button onclick="addService()" class="btn btn-sm btn-primary">เพิ่ม</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="config-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 60px;">#</th>
+                                        <th>ชื่อบริการ</th>
+                                        <th style="width: 100px;">จัดการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="service-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content success-animation">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+            <h2>ส่งแบบประเมินสำเร็จ!</h2>
+            <p>ขอบคุณสำหรับความคิดเห็นของท่าน</p>
+            <button onclick="closeSuccessModal()" class="btn btn-primary">ปิด</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
